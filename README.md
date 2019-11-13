@@ -1,44 +1,47 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Typescript & 리덕스
 
-## Available Scripts
+## 참고
+[veloeprt님의 velog](https://velog.io/@velopert/use-typescript-and-redux-like-a-pro)
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 목차
+* [준비](#준비)
+* [Action Type 선언](#Action-Type-선언)
+* [액션 생성 함수 선언](#액션-생성-함수-선언)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `yarn test`
+## 준비
+* 리덕스 관련 패키지 설치
+   * `@types/...`는 타입 스크립트 관련 라이브러리.
+   * [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) 에서 관련 라이브러리들 확인 가능.
+```shell
+$ yarn add redux react-redux @types/react-redux
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Action Type 선언
+* type을 선언할 때 는 다음과 같이 `as const` 라는 키워드를 붙여줘야 한다.
+   * `as const`는 **const assertions**라는 type script 문법으로 추후 액션 객체를 만들었을 때 `type`이 문자열을 나타내지 않고 실제값을 가리키게 된다.
+```typescript
+const INCREASE = 'counter/INCREASE' as const;
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## 액션 생성 함수 선언
+```typescript
+export const increase = ({type: INCREASE});
+// 파라메터를 받아올 경우.
+export const increaseBy = (diff: number) => ({
+  type: INCREASE_BY,
+  payload: diff,
+})
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 액션 객체들에 대한 Type 준비
+```typescript
+type CounterAction =
+  | ReturnType<typeof increase>
+  | ReturnType<typeof decrease>
+  | ReturnType<typeof increaseBy>
+```
