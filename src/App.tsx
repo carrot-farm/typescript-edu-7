@@ -1,10 +1,8 @@
 import React from 'react';
+import CounterContainer from './containers/CounterContainer';
 
 const App: React.FC = () => {
-  return (
-    <div className="App">
-    </div>
-  );
+  return <CounterContainer />;
 }
 
 export default App;

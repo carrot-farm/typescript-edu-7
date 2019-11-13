@@ -38,10 +38,39 @@ export const increaseBy = (diff: number) => ({
 })
 ```
 
-## 액션 객체들에 대한 Type 준비
+## 액션 객체들에 대한 Type 설정
+* `ReturnType` 은 함수에서 반환하는 타일을 가져올 수 있게 해주는 유틸 타입.
+   * Action Type 선언시 `as const` 를 사용하지 않았으면 `ReturnType` 선언시 `string`으로 처리된다.
 ```typescript
 type CounterAction =
   | ReturnType<typeof increase>
   | ReturnType<typeof decrease>
   | ReturnType<typeof increaseBy>
+```
+
+
+
+## 상태의 타입과 상태의 초기값 선언
+```typescript
+type CounterState = {
+  count: number;
+};
+const initialState: CounterState = {
+  count: 0,
+};
+```
+
+
+
+## 리듀서 작성하기
+```typescript
+function counter(state: CounterState = initialState, action: CounterAction){
+  switch(action.type){
+    case INCREASE:
+      return { count: state.count + 1 };
+    default:
+      return state;
+  }
+}
+export default counter;
 ```
