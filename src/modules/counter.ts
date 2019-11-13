@@ -20,7 +20,7 @@ const INCREASE_BY = 'counter/INCREASE_BY';
 // ===== 액션 생성 함수 선언(`createAction` 사용)
 export const increase = createAction(INCREASE)();
 export const decrease = createAction(DECREASE)();
-// payload 값은 제네릭을 이용해 넣어준다.
+// payload 타입은 제네릭을 이용해 넣어준다.
 export const increaseBy = createAction(INCREASE_BY)<number>(); // (payload: number) => ({type: INCREASE_BY, payload})
 
 
